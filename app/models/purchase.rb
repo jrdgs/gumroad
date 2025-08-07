@@ -42,7 +42,7 @@ class Purchase < ApplicationRecord
   COUNTS_REVIEWS_STATES = %w[successful gift_receiver_purchase_successful not_charged]
 
   ACTIVE_SALES_SEARCH_OPTIONS = {
-    state: NON_GIFT_SUCCESS_STATES,
+    state: ALL_SUCCESS_STATES,
     exclude_refunded_except_subscriptions: true,
     exclude_unreversed_chargedback: true,
     exclude_non_original_subscription_purchases: true,
@@ -1699,6 +1699,7 @@ class Purchase < ApplicationRecord
     elsif is_free_trial_purchase?
       mark_not_charged!
     elsif is_gift_receiver_purchase?
+      set_succeeded_at
       mark_gift_receiver_purchase_successful!
     else
       set_succeeded_at
